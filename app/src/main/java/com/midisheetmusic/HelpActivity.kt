@@ -20,7 +20,7 @@ import android.webkit.WebView
  * The HelpActivity displays the help.html file in the assets directory.
  */
 class HelpActivity : Activity() {
-    public override fun onCreate(savedInstanceState: Bundle) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.help)
         val view = findViewById<View>(R.id.help_webview) as WebView

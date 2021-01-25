@@ -33,7 +33,7 @@ import org.json.JSONArray
  */
 class ChooseSongActivity : TabActivity() {
     private val LOG_TAG = ChooseSongActivity::class.java.simpleName
-    public override fun onCreate(state: Bundle) {
+    public override fun onCreate(state: Bundle?) {
         globalActivity = this
         super.onCreate(state)
         val allFilesIcon = BitmapFactory.decodeResource(this.resources, R.drawable.allfilesicon)

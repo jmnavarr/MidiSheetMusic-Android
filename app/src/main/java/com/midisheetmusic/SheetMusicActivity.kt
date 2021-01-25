@@ -67,7 +67,7 @@ class SheetMusicActivity : MidiHandlingActivity() {
      * - data: The uri of the midi file to open.
      * - MidiTitleID: The title of the song (String)
      */
-    public override fun onCreate(state: Bundle) {
+    public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
 
         // Hide the navigation bar before the views are laid out

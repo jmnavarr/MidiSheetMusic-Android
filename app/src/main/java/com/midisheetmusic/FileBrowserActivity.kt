@@ -27,7 +27,7 @@ class FileBrowserActivity : ListActivity() {
     private var directory /* Current directory being displayed */: String? = null
     private var directoryView /* TextView showing directory name */: TextView? = null
     private var rootdir /* The top level root directory */: String? = null
-    public override fun onCreate(state: Bundle) {
+    public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setContentView(R.layout.file_browser)
         title = "MidiSheetMusic: Browse Files"

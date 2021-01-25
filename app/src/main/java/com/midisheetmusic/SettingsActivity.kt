@@ -145,7 +145,7 @@ class SettingsActivity : AppCompatActivity() {
 
         /** Left-hand color  */
         private var ctx: Context? = null
-        override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String) {
             if (arguments != null) {
                 options = arguments!!.getSerializable(settingsID) as MidiOptions
                 defaultOptions = arguments!!.getSerializable(defaultSettingsID) as MidiOptions

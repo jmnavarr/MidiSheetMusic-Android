@@ -144,14 +144,14 @@ class AllSongsActivity : ListActivity(), TextWatcher {
         return songlist!!
     }
 
-    public override fun onCreate(state: Bundle) {
+    public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setContentView(R.layout.choose_song)
         title = "MidiSheetMusic: Choose Song"
 
         /* If we're restarting from an orientation change,
          * load the saved song list.
-         */songlist = lastNonConfigurationInstance as ArrayList<FileUri>
+         */songlist = lastNonConfigurationInstance as ArrayList<FileUri>?
         if (songlist != null) {
             adapter = IconArrayAdapter(this, android.R.layout.simple_list_item_1, songlist)
             this.listAdapter = adapter

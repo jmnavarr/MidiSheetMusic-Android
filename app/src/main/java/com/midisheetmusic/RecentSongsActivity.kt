@@ -27,7 +27,7 @@ import java.util.*
  */
 class RecentSongsActivity : ListActivity() {
     private var filelist /* List of recent files opened */: ArrayList<FileUri>? = null
-    public override fun onCreate(state: Bundle) {
+    public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         title = "MidiSheetMusic: Recent Songs"
         listView.setBackgroundColor(Color.rgb(0, 0, 0))

@@ -47,16 +47,16 @@ class IconArrayAdapter<T>(context: Context, resourceId: Int, objects: List<T>?) 
      * The view consists of a Note Pair icon on the left-side,
      * and the name of the song.
      */
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         if (convertView == null) {
             // TODO: Make linter happy (Avoid passing null as the view root)
             convertView = inflater.inflate(R.layout.choose_song_item, null)
         }
-        val text = convertView.findViewById<TextView>(R.id.choose_song_name)
+        val text = convertView!!.findViewById<TextView>(R.id.choose_song_name)
         val image = convertView.findViewById<ImageView>(R.id.choose_song_icon)
         text.highlightColor = Color.WHITE
-        val file = getItem(position) as FileUri
+        val file = getItem(position) as FileUri?
         if (file != null) {
             if (file.isDirectory) {
                 image.setImageBitmap(directoryIcon)
@@ -68,7 +68,7 @@ class IconArrayAdapter<T>(context: Context, resourceId: Int, objects: List<T>?) 
         } else {
             text.setText(R.string.err_file_not_found)
         }
-        return convertView
+        return convertView!!
     }
 
     companion object {

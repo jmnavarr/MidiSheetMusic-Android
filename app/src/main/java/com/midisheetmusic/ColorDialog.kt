@@ -41,7 +41,7 @@ import android.view.View
  * the callback listener is invoked.
  */
 class ColorDialog(context: Context?, private val listener: ColorChangedListener, private val selectedColor: Int) : Dialog(context) {
-    override fun onCreate(state: Bundle) {
+    override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         val listen: ColorChangedListener = object : ColorChangedListener {
             override fun colorChanged(color: Int) {

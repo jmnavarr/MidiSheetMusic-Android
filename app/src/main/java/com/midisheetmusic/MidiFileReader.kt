@@ -102,11 +102,11 @@ class MidiFileReader
         var result = 0
         var b: Byte
         b = ReadByte()
-        result = (b and 0x7f) as Int
+        result = (b and 0x7f).toInt()
         for (i in 0..2) {
             if ((b and 0x80.toByte()).toInt() != 0) {
                 b = ReadByte()
-                result = ((result shl 7) + (b and 0x7f)) as Int
+                result = ((result shl 7) + (b and 0x7f))
             } else {
                 break
             }
