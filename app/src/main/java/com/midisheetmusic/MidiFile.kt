@@ -15,7 +15,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.*
-import kotlin.experimental.and
 
 /** @class Pair - A pair of ints
  */
@@ -413,9 +412,9 @@ class MidiFile(rawdata: ByteArray,
                                 ("Meta Event Tempo len == " + mevent.Metalength +
                                         " != 3"), file.GetOffset())
                     }
-                    mevent.Tempo = ((((mevent.Value!![0]).toInt() and 0xFF) shl 16) or
-                            (((mevent.Value!![1]).toInt() and 0xFF) shl 8) or
-                            ((mevent.Value!![2]).toInt() and 0xFF))
+                    mevent.Tempo = (((mevent.Value!![0].toInt() and 0xFF) shl 16) or
+                            ((mevent.Value!![1].toInt() and 0xFF) shl 8) or
+                            (mevent.Value!![2].toInt() and 0xFF))
                 } else if (mevent.Metaevent == MetaEventEndOfTrack) {
                     /* break;  */
                 }
@@ -879,18 +878,18 @@ class MidiFile(rawdata: ByteArray,
             val b3 = ((num shr 7) and 0x7F).toByte()
             val b4 = (num and 0x7F).toByte()
             if (b1 > 0) {
-                buf[offset] = (b1.toInt() or 0x80) as Byte
-                buf[offset + 1] = (b2.toInt() or 0x80) as Byte
-                buf[offset + 2] = (b3.toInt() or 0x80) as Byte
+                buf[offset] = (b1.toInt() or 0x80).toByte()
+                buf[offset + 1] = (b2.toInt() or 0x80).toByte()
+                buf[offset + 2] = (b3.toInt() or 0x80).toByte()
                 buf[offset + 3] = b4
                 return 4
             } else if (b2 > 0) {
-                buf[offset] = (b2.toInt() or 0x80) as Byte
-                buf[offset + 1] = (b3.toInt() or 0x80) as Byte
+                buf[offset] = (b2.toInt() or 0x80).toByte()
+                buf[offset + 1] = (b3.toInt() or 0x80).toByte()
                 buf[offset + 2] = b4
                 return 3
             } else if (b3 > 0) {
-                buf[offset] = (b3.toInt() or 0x80) as Byte
+                buf[offset] = (b3.toInt() or 0x80).toByte()
                 buf[offset + 1] = b4
                 return 2
             } else {
@@ -1006,8 +1005,8 @@ class MidiFile(rawdata: ByteArray,
                         buf[0] = mevent.ChanPressure
                         file.write(buf, 0, 1)
                     } else if (mevent.EventFlag == EventPitchBend) {
-                        buf[0] = ((mevent.PitchBend).toInt() shr 8) as Byte
-                        buf[1] = (mevent.PitchBend and 0xFF) as Byte
+                        buf[0] = (mevent.PitchBend.toInt() shr 8).toByte()
+                        buf[1] = (mevent.PitchBend.toInt() and 0xFF).toByte()
                         file.write(buf, 0, 2)
                     } else if (mevent.EventFlag == SysexEvent1) {
                         val offset = VarlenToBytes(mevent.Metalength, buf, 0)

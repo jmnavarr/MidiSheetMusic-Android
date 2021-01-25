@@ -126,7 +126,7 @@ class RestSymbol(
      */
     fun DrawEighth(canvas: Canvas?, paint: Paint?, ytop: Int) {
         val y = ytop + SheetMusic.NoteHeight - 1
-        val rect = RectF(0 as Float, (y + 1).toFloat(),
+        val rect = RectF(0.toFloat(), (y + 1).toFloat(),
                 (SheetMusic.LineSpace - 1).toFloat(), (y + 1 + SheetMusic.LineSpace - 1).toFloat())
         paint!!.style = Paint.Style.FILL
         canvas!!.drawOval(rect, paint)

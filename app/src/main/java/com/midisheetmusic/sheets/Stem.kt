@@ -44,16 +44,7 @@ class Stem(
     val duration: NoteDuration
 
     /** Duration of the stem.  */
-    /** This stem is the receiver of a horizontal
-     * beam stem from another chord.  */
-    /** Get/Set the direction of the stem (Up or Down)  */
-    var direction: Int
-    get() {
-        return direction
-    }
-    set(value) {
-        ChangeDirection(value)
-    }
+    private var dir: Int
     /** Get the top note in the chord. This is needed to determine the stem direction  */
     /** Get the bottom note in the chord. This is needed to determine the stem direction  */
     /** Get/Set the location where the stem ends.  This is usually six notes
@@ -80,13 +71,22 @@ class Stem(
      */
     /** The width (in pixels) to the chord pair  */
     var receiver: Boolean
-
+    /** This stem is the receiver of a horizontal
+     * beam stem from another chord.  */
+    /** Get/Set the direction of the stem (Up or Down)  */
+    var direction: Int
+    get() {
+        return dir
+    }
+    set(value) {
+        ChangeDirection(value)
+    }
 
     /** Calculate the vertical position (white note key) where
      * the stem ends
      */
     fun CalculateEnd(): WhiteNote? {
-        return if (direction == Up) {
+        return if (dir == Up) {
             var w = top
             w = w.Add(6)
             if (duration === NoteDuration.Sixteenth) {
@@ -95,7 +95,7 @@ class Stem(
                 w = w.Add(4)
             }
             w
-        } else if (direction == Down) {
+        } else if (dir == Down) {
             var w = bottom
             w = w.Add(-6)
             if (duration === NoteDuration.Sixteenth) {
@@ -114,8 +114,8 @@ class Stem(
      * beam, their stems must point in the same direction (up or down).
      */
     fun ChangeDirection(newdirection: Int) {
-        direction = newdirection
-        side = if (direction == Up || notesoverlap) RightSide else LeftSide
+        dir = newdirection
+        side = if (dir == Up || notesoverlap) RightSide else LeftSide
         end = CalculateEnd()
     }
 
@@ -154,11 +154,11 @@ class Stem(
     private fun DrawVerticalLine(canvas: Canvas, paint: Paint, ytop: Int, topstaff: WhiteNote) {
         val xstart: Int
         xstart = if (side == LeftSide) SheetMusic.LineSpace / 4 + 1 else SheetMusic.LineSpace / 4 + SheetMusic.NoteWidth
-        if (direction == Up) {
+        if (dir == Up) {
             val y1 = ytop + topstaff.Dist(bottom) * SheetMusic.NoteHeight / 2 + SheetMusic.NoteHeight / 4
             val ystem = ytop + topstaff.Dist(end!!) * SheetMusic.NoteHeight / 2
             canvas.drawLine(xstart.toFloat(), y1.toFloat(), xstart.toFloat(), ystem.toFloat(), paint)
-        } else if (direction == Down) {
+        } else if (dir == Down) {
             var y1 = ytop + topstaff.Dist(top) * SheetMusic.NoteHeight / 2 + SheetMusic.NoteHeight
             y1 = if (side == LeftSide) y1 - SheetMusic.NoteHeight / 4 else y1 - SheetMusic.NoteHeight / 2
             val ystem = ytop + topstaff.Dist(end!!) * SheetMusic.NoteHeight / 2 + SheetMusic.NoteHeight
@@ -175,7 +175,7 @@ class Stem(
         paint.strokeWidth = 2f
         var xstart = 0
         xstart = if (side == LeftSide) SheetMusic.LineSpace / 4 + 1 else SheetMusic.LineSpace / 4 + SheetMusic.NoteWidth
-        if (direction == Up) {
+        if (dir == Up) {
             var ystem = ytop + topstaff.Dist(end!!) * SheetMusic.NoteHeight / 2
             if (duration === NoteDuration.Eighth || duration === NoteDuration.DottedEighth || duration === NoteDuration.Triplet || duration === NoteDuration.Sixteenth || duration === NoteDuration.ThirtySecond) {
                 bezierPath = Path()
@@ -204,7 +204,7 @@ class Stem(
                         xstart + SheetMusic.LineSpace / 2).toFloat(), (ystem + SheetMusic.NoteHeight * 3).toFloat())
                 canvas.drawPath(bezierPath, paint)
             }
-        } else if (direction == Down) {
+        } else if (dir == Down) {
             var ystem = ytop + topstaff.Dist(end!!) * SheetMusic.NoteHeight / 2 +
                     SheetMusic.NoteHeight
             if (duration === NoteDuration.Eighth || duration === NoteDuration.DottedEighth || duration === NoteDuration.Triplet || duration === NoteDuration.Sixteenth || duration === NoteDuration.ThirtySecond) {
@@ -249,7 +249,7 @@ class Stem(
         var xstart2 = 0
         if (side == LeftSide) xstart = SheetMusic.LineSpace / 4 + 1 else if (side == RightSide) xstart = SheetMusic.LineSpace / 4 + SheetMusic.NoteWidth
         if (pair!!.side == LeftSide) xstart2 = SheetMusic.LineSpace / 4 + 1 else if (pair!!.side == RightSide) xstart2 = SheetMusic.LineSpace / 4 + SheetMusic.NoteWidth
-        if (direction == Up) {
+        if (dir == Up) {
             val xend = width_to_pair + xstart2
             var ystart = ytop + topstaff.Dist(end!!) * SheetMusic.NoteHeight / 2
             var yend = ytop + topstaff.Dist(pair!!.end!!) * SheetMusic.NoteHeight / 2
@@ -307,7 +307,7 @@ class Stem(
     override fun toString(): String {
         return String.format("Stem duration=%1\$s direction=%2\$s top=%3\$s bottom=%4\$s end=%5\$s" +
                 " overlap=%6\$s side=%7\$s width_to_pair=%8\$s receiver_in_pair=%9\$s",
-                duration, direction, top.toString(), bottom.toString(),
+                duration, dir, top.toString(), bottom.toString(),
                 end.toString(), notesoverlap, side, width_to_pair, receiver)
     }
 
@@ -326,7 +326,7 @@ class Stem(
      */
     init {
         this.duration = duration
-        this.direction = direction
+        this.dir = direction
         notesoverlap = overlap
         side = if (direction == Up || notesoverlap) RightSide else LeftSide
         end = CalculateEnd()

@@ -12,7 +12,6 @@
 package com.midisheetmusic
 
 import java.nio.charset.StandardCharsets
-import kotlin.experimental.and
 
 /** @class MidiFileReader
  * The MidiFileReader is used to read low-level binary data from a file.
@@ -68,8 +67,8 @@ class MidiFileReader
     /** Read a 16-bit short from the file  */
     fun ReadShort(): Int {
         checkRead(2)
-        val x: Int = ((data[parse_offset] and 0xFF.toByte()).toInt() shl 8) or
-                (data[parse_offset + 1] and 0xFF.toByte()).toInt()
+        val x: Int = data[parse_offset].toInt() and 0xFF shl 8 or
+                (data[parse_offset + 1].toInt() and 0xFF)
         parse_offset += 2
         return x
     }
@@ -77,10 +76,10 @@ class MidiFileReader
     /** Read a 32-bit int from the file  */
     fun ReadInt(): Int {
         checkRead(4)
-        val x: Int = (data[parse_offset] and 0xFF.toByte()).toInt() shl 24 or
-                ((data[parse_offset + 1] and 0xFF.toByte()).toInt() shl 16) or
-                ((data[parse_offset + 2] and 0xFF.toByte()).toInt() shl 8) or
-                (data[parse_offset + 3] and 0xFF.toByte()).toInt()
+        val x: Int = data[parse_offset].toInt() and 0xFF shl 24 or
+                (data[parse_offset + 1].toInt() and 0xFF shl 16) or
+                (data[parse_offset + 2].toInt() and 0xFF shl 8) or
+                (data[parse_offset + 3].toInt() and 0xFF)
         parse_offset += 4
         return x
     }
@@ -102,11 +101,11 @@ class MidiFileReader
         var result = 0
         var b: Byte
         b = ReadByte()
-        result = (b and 0x7f).toInt()
+        result = (b.toInt() and 0x7f) as Int
         for (i in 0..2) {
-            if ((b and 0x80.toByte()).toInt() != 0) {
+            if (b.toInt() and 0x80 != 0) {
                 b = ReadByte()
-                result = ((result shl 7) + (b and 0x7f))
+                result = ((result shl 7) + (b.toInt() and 0x7f)) as Int
             } else {
                 break
             }
